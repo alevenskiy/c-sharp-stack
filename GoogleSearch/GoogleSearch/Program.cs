@@ -9,17 +9,18 @@ namespace GoogleSearch
     {
         static void Main(string[] args)
         {
-            //необходимо чтобы в папке присутствовал chromedriver.exe
+            //необходимо чтобы в этой папке присутствовал chromedriver.exe
             IWebDriver driver = new ChromeDriver("C:\\Program Files\\Google\\Chrome\\Application"); 
             
             driver.Url = "https://www.google.com";
 
-            //у поисковой строки имя "q"
+            //у поисковой строки есть имя - "q"
             IWebElement input = driver.FindElement(By.Name("q"));
 
             input.SendKeys("Hello world!");
             input.SendKeys(Keys.Enter);
 
+            //log.txt directory - *GoogleSearch\GoogleSearch\bin\Debug
             using (StreamWriter sw = new StreamWriter("log.txt", false))
             {
                 sw.WriteLine(driver.Title);

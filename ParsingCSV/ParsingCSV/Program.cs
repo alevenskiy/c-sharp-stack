@@ -12,6 +12,7 @@ namespace ParsingCSV
     {
         static void Main(string[] args)
         {
+            //.csv file directory - *ParsingCSV\ParsingCSV\bin\Debug
             string[] lines = File.ReadAllLines("Top100ChessPlayers.csv");
             List<ChessPlayer> cpList = new List<ChessPlayer>();
 
@@ -21,6 +22,7 @@ namespace ParsingCSV
                 cpList.Add(cp);
             }
 
+            //log.txt file directory - *ParsingCSV\ParsingCSV\bin\Debug
             using (StreamWriter sw = new StreamWriter("log.txt", false))
             {
                 sw.WriteLine("");
