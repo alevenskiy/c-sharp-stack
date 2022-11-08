@@ -106,7 +106,7 @@ namespace Authorization
             }
             else
             {
-                MessageBox.Show("This login is already in use\nPlease enter new one");
+                MessageBox.Show("This login is already exist\nPlease enter new one");
                 sql.closeConnection();
             }
         }
@@ -150,6 +150,11 @@ namespace Authorization
                 latinMustCharectersLabel.Visible = false;
             else
                 latinMustCharectersLabel.Visible = true;
+
+            if (repeatPasswordTextBox.Text != createPasswordTextBox.Text)
+                passwordsMustEqualsLabel.Visible = true;
+            else
+                passwordsMustEqualsLabel.Visible = false;
         }
     }
 }

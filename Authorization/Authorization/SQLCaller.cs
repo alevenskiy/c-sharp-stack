@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Data.Common;
 
 namespace Authorization
 {
@@ -36,8 +37,8 @@ namespace Authorization
 
             MySqlDataAdapter dataAdapter = new MySqlDataAdapter();
 
-            MySqlCommand command = new MySqlCommand("SELECT * FROM 'users' " +
-                "WHERE 'login' = @userlogin AND 'password' = @userpassword;", connection);
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `users` " +
+                "WHERE `login` = @userlogin AND `password` = @userpassword;", connection);
             command.Parameters.Add("@userlogin", MySqlDbType.VarChar).Value = login;
             command.Parameters.Add("@userpassword", MySqlDbType.VarChar).Value = password;
 
@@ -45,13 +46,9 @@ namespace Authorization
             dataAdapter.Fill(dataTable);
 
             if (dataTable.Rows.Count > 0)
-            {
                 return true;
-            }
             else
-            {
                 return false;
-            }
         }
 
         public bool checkUser(string login)
@@ -60,8 +57,8 @@ namespace Authorization
 
             MySqlDataAdapter dataAdapter = new MySqlDataAdapter();
 
-            MySqlCommand command = new MySqlCommand("SELECT * FROM 'users' " +
-                "WHERE 'login' = @userlogin", connection);
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `users` " +
+                "WHERE `login` = @userlogin", connection);
             command.Parameters.Add("@userlogin", MySqlDbType.VarChar).Value = login;
 
             dataAdapter.SelectCommand = command;
@@ -83,19 +80,13 @@ namespace Authorization
             }
             else
             {
-                DataTable dataTable = new DataTable();
+                MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`login`, `password`) " +
+                "VALUES ('" + login + "', '" + password + "')", connection);
 
-                MySqlDataAdapter dataAdapter = new MySqlDataAdapter();
-
-                MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`id`, `login`, `password`) " +
-                "VALUES (NULL, '@userlogin', '@userpassword');", connection);
-
-                command.Parameters.Add("@userlogin", MySqlDbType.VarChar).Value = login;
-                command.Parameters.Add("@userpassword", MySqlDbType.VarChar).Value = password;
-
-                dataAdapter.SelectCommand = command;
-
-                return true;
+                if (command.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                    return false;
             }
         }
     }

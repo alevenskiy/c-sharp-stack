@@ -23,8 +23,11 @@ namespace Authorization
                     {
                         loginTextBox.Text = sr.ReadLine();
                         passwordTextBox.Text = sr.ReadLine();
+
+                        rememberCheckBox.Checked = true;
                     }
                 }
+                
             }
         }
 
@@ -75,6 +78,10 @@ namespace Authorization
                     sw.WriteLine(password);
                 }
             }
+            else if(new FileInfo("not_a_login.txt").Exists)
+            {
+                File.Delete("not_a_login.txt");
+            }
 
             string hashPassword = getPasswordHash(password);
 
@@ -85,12 +92,13 @@ namespace Authorization
             {
                 MessageBox.Show("You have successfully logged in");
                 sql.closeConnection();
-                this.Close();
+                new MainMenuForm().Show();
+                //this.Close();
             }
             else if (sql.checkUser(login))
                 MessageBox.Show("Wrong password");
             else
-                MessageBox.Show("This login is not used");
+                MessageBox.Show("This login is not exist");
             
             sql.closeConnection();
         }
